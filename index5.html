@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agomuc Program Private Limited</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: #fff;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        nav .logo {
+            font-size: clamp(18px, 5vw, 24px);
+            transition: color 0.3s;
+        }
+
+        nav .logo:hover {
+            color: #0f0;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+        }
+
+        nav ul li a {
+            padding: 5px 10px;
+            transition: all 0.3s;
+        }
+
+        nav ul li a:hover {
+            background: #0f0;
+            color: #000;
+            border-radius: 5px;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(135deg, #000, #1a1a1a);
+        }
+
+        .hero h1 {
+            font-size: clamp(32px, 10vw, 48px);
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 0 10px #0f0;
+        }
+
+        .hero p {
+            font-size: clamp(16px, 5vw, 20px);
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero .cta {
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #0f0, #00f);
+            color: #fff;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            z-index: 2;
+            border-radius: 5px;
+            transition: transform 0.3s;
+        }
+
+        .hero .cta:hover {
+            transform: scale(1.1);
+        }
+
+        #neural-canvas,
+        #neural-net-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.3;
+        }
+
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            opacity: 0.1;
+        }
+
+        .about,
+        .team,
+        .services,
+        .target-market,
+        .contact {
+            padding: clamp(40px, 10vw, 80px) 20px;
+            background: #fff;
+            color: #000;
+            text-align: center;
+            position: relative;
+        }
+
+        .about h2,
+        .team h2,
+        .services h2,
+        .target-market h2,
+        .contact h2 {
+            font-size: clamp(24px, 8vw, 36px);
+            margin-bottom: 40px;
+            text-shadow: 0 0 5px #000;
+        }
+
+        .about-intro {
+            max-width: 1000px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+            position: relative;
+            text-align: justify;
+        }
+
+        .about-intro p {
+            font-size: clamp(16px, 4vw, 20px);
+            font-weight: 500;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        #about-animation,
+        #data-flow-canvas {
+            width: 100%;
+            height: 200px;
+            margin-top: 30px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .about-section {
+            padding: clamp(30px, 8vw, 60px) 20px;
+            background: #000;
+            color: #fff;
+            position: relative;
+            margin-bottom: 20px;
+            text-align: justify;
+            transition: transform 0.3s;
+        }
+
+        .about-section:hover {
+            transform: translateY(-10px);
+        }
+
+        .about-section:nth-child(even) {
+            background: #fff;
+            color: #000;
+        }
+
+        .about-section h3 {
+            font-size: clamp(20px, 6vw, 28px);
+            margin-bottom: 25px;
+        }
+
+        .about-section p {
+            max-width: 800px;
+            margin: 0 auto 25px;
+            font-size: clamp(14px, 4vw, 18px);
+        }
+
+        .about-section canvas {
+            width: 100%;
+            max-width: 600px;
+            height: 250px;
+            margin-top: 30px;
+            border: 1px solid #ccc;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .team-member {
+            background: #000;
+            color: #fff;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .team-member:hover {
+            transform: scale(1.05);
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 40px auto 0;
+        }
+
+        .service {
+            background: #000;
+            color: #fff;
+            padding: 30px;
+            text-align: justify;
+            transition: box-shadow 0.3s;
+        }
+
+        .service:hover {
+            box-shadow: 0 0 15px #0f0;
+        }
+
+        .service canvas {
+            width: 100%;
+            height: 200px;
+            margin-top: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #training-canvas,
+        #gnn-canvas,
+        #lstm-canvas {
+            width: 100%;
+            max-width: 600px;
+            height: 300px;
+            margin-top: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .target-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 40px auto 0;
+        }
+
+        .target {
+            background: #000;
+            color: #fff;
+            padding: 20px;
+            position: relative;
+            text-align: justify;
+        }
+
+        .contact {
+            background: #000;
+            color: #fff;
+        }
+
+        .contact form {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact input,
+        .contact textarea {
+            padding: 15px;
+            background: #111;
+            color: #fff;
+            border: 1px solid #0f0;
+            border-radius: 5px;
+        }
+
+        .contact button {
+            padding: 15px;
+            background: linear-gradient(45deg, #0f0, #00f);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            transition: transform 0.3s;
+        }
+
+        .contact button:hover {
+            transform: scale(1.05);
+        }
+
+        footer {
+            padding: 20px;
+            text-align: center;
+            background: #111;
+            color: #fff;
+            position: relative;
+        }
+
+        footer p {
+            font-size: 14px;
+        }
+
+        #footer-canvas {
+            width: 100%;
+            height: 50px;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+
+            .about-section canvas,
+            .service canvas,
+            #training-canvas,
+            #gnn-canvas,
+            #lstm-canvas {
+                height: 200px;
+            }
+
+            .hero h1 {
+                font-size: clamp(24px, 8vw, 36px);
+            }
+        }
+
+        @media (min-width: 1200px) {
+
+            .about-section,
+            .service {
+                padding: 80px 40px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <canvas id="matrix-canvas"></canvas>
+    <nav>
+        <div class="logo">Agomuc Program Private Limited</div>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#team">Team</a></li>
+            <li><a href="#services">What We Do</a></li>
+            <li><a href="#target-market">Target Market</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+    <section id="home" class="hero">
+        <h1>Predicting Crime. Preventing Chaos.</h1>
+        <p>Harnessing AI, Blockchain, and Surveillance for a Safer Tomorrow.</p>
+        <button class="cta">Explore Our Solutions</button>
+        <canvas id="neural-canvas"></canvas>
+        <canvas id="neural-net-canvas"></canvas>
+    </section>
+    <section id="about" class="about">
+        <h2>About Us</h2>
+        <div class="about-intro">
+            <p>Founded in 2023 by Jas Sharma, Agomuc unites AI, security, and blockchain experts to stop crime before it
+                starts.</p>
+            <p>From our tech hub, we secure 50+ cities globally, blending science and resolve to shape a chaos-free
+                future.</p>
+            <canvas id="about-animation"></canvas>
+            <canvas id="data-flow-canvas"></canvas>
+        </div>
+        <div class="about-section">
+            <h3>What We Do</h3>
+            <p>I’m Jas Sharma. Our NeuraShield app predicts threats with 98% accuracy—e.g., cutting Mumbai crime by 40%
+                via preemptive alerts.</p>
+            <p>OmniWatch spots risks in real-time, reducing London theft by 25% with drone patrols. CrimeChain ensures
+                tamper-proof data.</p>
+            <canvas id="what-we-do-canvas"></canvas>
+            <canvas id="crime-globe-canvas"></canvas>
+            <canvas id="predictive-heatmap-canvas"></canvas>
+        </div>
+        <div class="about-section">
+            <h3>Beyond Today</h3>
+            <p>We’re building a future where crime is obsolete—AI outsmarts criminals, surveillance fades into the
+                background, data is ironclad.</p>
+            <canvas id="beyond-today-canvas"></canvas>
+            <canvas id="timeline-canvas"></canvas>
+        </div>
+        <div class="about-section">
+            <h3>Our Mission</h3>
+            <p>Eliminate preventable crime with AI, surveillance, and blockchain—safety as the default.</p>
+            <canvas id="mission-canvas"></canvas>
+        </div>
+        <div class="about-section">
+            <h3>Our Vision</h3>
+            <p>Zero preventable crime. 300% ROI by slashing crime’s $2 trillion toll. Join the safety revolution.</p>
+            <canvas id="vision-canvas"></canvas>
+        </div>
+        <div class="about-section">
+            <h3>Progress</h3>
+            <p>Since 2023, we’ve secured 50+ cities, analyzed 10M data points daily, and stopped chaos in Tokyo, New
+                York, and São Paulo.</p>
+            <canvas id="progress-canvas"></canvas>
+            <canvas id="cityscape-canvas"></canvas>
+        </div>
+        <div class="about-section">
+            <h3>Why Invest</h3>
+            <p>Proprietary AI and blockchain tackle a $2 trillion crisis. Early investors saw 5x returns. Stake your
+                claim now.</p>
+            <canvas id="invest-canvas"></canvas>
+            <canvas id="profit-projection-canvas"></canvas>
+        </div>
+        <div class="about-section">
+            <h3>Career</h3>
+            <p>Join AI visionaries and security experts to end crime. Equity and impact await. Apply now.</p>
+            <canvas id="career-canvas"></canvas>
+        </div>
+        <div class="about-section">
+            <h3>Our Impact</h3>
+            <p>In 2024, we cut crime 30% in pilot cities, saving $500M—safer streets, stronger communities.</p>
+            <canvas id="impact-canvas"></canvas>
+        </div>
+    </section>
+    <section id="team" class="team">
+        <h2>Our Team</h2>
+        <div class="team-grid">
+            <div class="team-member">
+                <h3>Jas Sharma</h3>
+                <p>CEO & Founder</p>
+                <p>20 years in tech. Fighting crime’s reign.</p>
+            </div>
+            <div class="team-member">
+                <h3>Jax Vorn</h3>
+                <p>Chief AI Scientist</p>
+                <p>Neural net expert. Patterns decoded.</p>
+            </div>
+            <div class="team-member">
+                <h3>Lila Tran</h3>
+                <p>Blockchain Lead</p>
+                <p>First CrimeChain coder. Data secured.</p>
+            </div>
+            <div class="team-member">
+                <h3>Cmdr. Rex Holt</h3>
+                <p>Security Strategist</p>
+                <p>30 years in law. AI meets the streets.</p>
+            </div>
+        </div>
+    </section>
+    <section id="services" class="services">
+        <h2>Our Solutions</h2>
+        <p>Predict. Protect. Innovate.</p>
+        <div class="service-grid">
+            <div class="service">
+                <h3>NeuraShield App</h3>
+                <p>Real-time crime alerts and patrol optimization.</p>
+                <canvas id="graph1"></canvas>
+            </div>
+            <div class="service">
+                <h3>OmniWatch</h3>
+                <p>AI anomaly detection in urban landscapes.</p>
+                <canvas id="graph2"></canvas>
+            </div>
+            <div class="service">
+                <h3>CrimeChain</h3>
+                <p>Tamper-proof crime data ledger.</p>
+                <canvas id="graph3"></canvas>
+            </div>
+            <div class="service">
+                <h3>Predictive AI</h3>
+                <p>Neural networks forecast crime trends.</p>
+                <canvas id="training-canvas"></canvas>
+                <canvas id="loss-convergence-canvas" style="height: 150px;"></canvas>
+            </div>
+            <div class="service">
+                <h3>GNN</h3>
+                <p>Uncovers hidden crime network patterns.</p>
+                <canvas id="gnn-canvas"></canvas>
+                <canvas id="force-directed-canvas" style="height: 150px;"></canvas>
+            </div>
+            <div class="service">
+                <h3>LSTM</h3>
+                <p>Time-series crime prediction.</p>
+                <canvas id="lstm-canvas"></canvas>
+            </div>
+        </div>
+    </section>
+    <section id="target-market" class="target-market">
+        <h2>Target Market</h2>
+        <p>[Future content placeholder]</p>
+        <div class="target-grid">
+            <!-- Placeholder -->
+        </div>
+    </section>
+    <section id="contact" class="contact">
+        <h2>Connect</h2>
+        <p>Jas Sharma here. Let’s talk—partners, investors, team.</p>
+        <form>
+            <input type="text" placeholder="Name" required>
+            <input type="email" placeholder="Email" required>
+            <textarea placeholder="Message" rows="5" required></textarea>
+            <button type="submit">Send</button>
+        </form>
+        <canvas id="neural-pulse-canvas"></canvas>
+        <canvas id="blockchain-hash-canvas"></canvas>
+    </section>
+    <footer>
+        <p>© 2025 Agomuc Program Private Limited. All rights reserved.</p>
+        <canvas id="footer-canvas"></canvas>
+    </footer>
+
+    <script>
+        // Smooth Scroll
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', e => {
+                e.preventDefault();
+                document.querySelector(anchor.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Canvas Initialization (unchanged from your latest snippet)
+        function initCanvas(canvasId, height = 250) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return null;
+            const ctx = canvas.getContext('2d');
+            const parentWidth = canvas.parentElement.clientWidth;
+            const maxWidth = Math.min(parentWidth, 600);
+            canvas.width = maxWidth;
+            canvas.height = height;
+            const offsetX = (parentWidth - maxWidth) / 2;
+            return { canvas, ctx, offsetX };
+        }
+
+        // Hero: Matrix Falling Numbers (your original Agomuc style)
+        const neuralSetup = initCanvas('neural-canvas', window.innerHeight);
+        if (neuralSetup) {
+            const { canvas: neuralCanvas, ctx: neuralCtx } = neuralSetup;
+            const matrix = '0123456789'.split('');
+            const fontSize = 16;
+            const columns = neuralCanvas.width / fontSize;
+            const drops = Array(Math.floor(columns)).fill(0);
+            function drawMatrixNumbers() {
+                neuralCtx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                neuralCtx.fillRect(0, 0, neuralCanvas.width, neuralCanvas.height);
+                neuralCtx.fillStyle = '#0f0'; // Green numbers like your original
+                neuralCtx.font = `${fontSize}px Orbitron`;
+                drops.forEach((y, i) => {
+                    const text = matrix[Math.floor(Math.random() * matrix.length)];
+                    const x = i * fontSize;
+                    neuralCtx.fillText(text, x, y);
+                    if (y > neuralCanvas.height && Math.random() > 0.975) drops[i] = 0;
+                    drops[i] += fontSize;
+                });
+                neuralCtx.fillStyle = '#fff';
+                neuralCtx.font = '16px Orbitron';
+                neuralCtx.fillText('Crime Stats Falling', 10, 20);
+            }
+            setInterval(drawMatrixNumbers, 50);
+        }
+
+
+        // About Us: Radar Animation
+        const aboutAnimSetup = initCanvas('about-animation', 200);
+        if (aboutAnimSetup) {
+            const { canvas: aboutCanvas, ctx: aboutCtx } = aboutAnimSetup;
+            let angle = 0;
+            function animateRadar() {
+                aboutCtx.clearRect(0, 0, aboutCanvas.width, aboutCanvas.height);
+                const centerX = aboutCanvas.width / 2, centerY = aboutCanvas.height / 2, radius = 80;
+                const gradient = aboutCtx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius);
+                gradient.addColorStop(0, 'rgba(0, 255, 0, 0.5)');
+                gradient.addColorStop(1, 'rgba(0, 255, 0, 0)');
+
+                for (let r = 20; r <= radius; r += 20) {
+                    aboutCtx.beginPath();
+                    aboutCtx.arc(centerX, centerY, r, 0, Math.PI * 2);
+                    aboutCtx.strokeStyle = gradient;
+                    aboutCtx.lineWidth = 1;
+                    aboutCtx.stroke();
+                }
+
+                aboutCtx.beginPath();
+                aboutCtx.moveTo(centerX, centerY);
+                const sweepX = centerX + Math.cos(angle) * radius;
+                const sweepY = centerY + Math.sin(angle) * radius;
+                aboutCtx.lineTo(sweepX, sweepY);
+                aboutCtx.strokeStyle = '#0f0';
+                aboutCtx.lineWidth = 2;
+                aboutCtx.stroke();
+
+                const blips = [
+                    { x: centerX + Math.cos(angle + 1) * 40, y: centerY + Math.sin(angle + 1) * 40 },
+                    { x: centerX + Math.cos(angle - 2) * 60, y: centerY + Math.sin(angle - 2) * 60 }
+                ];
+                blips.forEach(b => {
+                    aboutCtx.beginPath();
+                    aboutCtx.arc(b.x, b.y, 5, 0, Math.PI * 2);
+                    aboutCtx.fillStyle = '#f00';
+                    aboutCtx.fill();
+                });
+
+                aboutCtx.fillStyle = '#000';
+                aboutCtx.font = '16px Orbitron';
+                aboutCtx.fillText('Crime Detection', 10, 20);
+                angle += 0.05;
+                requestAnimationFrame(animateRadar);
+            }
+            animateRadar();
+        }
+
+        // About Us: Data Flow
+        const dataFlowSetup = initCanvas('data-flow-canvas', 200);
+        if (dataFlowSetup) {
+            const { canvas: dataCanvas, ctx: dataCtx } = dataFlowSetup;
+            let particles = Array(20).fill().map(() => ({ x: Math.random() * dataCanvas.width, y: Math.random() * dataCanvas.height, vx: (Math.random() - 0.5) * 2 }));
+            function animateDataFlow() {
+                dataCtx.clearRect(0, 0, dataCanvas.width, dataCanvas.height);
+                particles.forEach(p => {
+                    p.x += p.vx;
+                    if (p.x < 0) p.x = dataCanvas.width;
+                    if (p.x > dataCanvas.width) p.x = 0;
+                    dataCtx.beginPath();
+                    dataCtx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+                    dataCtx.fillStyle = '#0f0';
+                    dataCtx.fill();
+                });
+                dataCtx.fillStyle = '#000';
+                dataCtx.font = '16px Orbitron';
+                dataCtx.fillText('Data Flow', 10, 20);
+                requestAnimationFrame(animateDataFlow);
+            }
+            animateDataFlow();
+        }
+
+        // What We Do: PCA Lines
+        const wwdSetup = initCanvas('what-we-do-canvas');
+        if (wwdSetup) {
+            const { canvas: wwdCanvas, ctx: wwdCtx } = wwdSetup;
+            let angle = 0;
+            function animatePCA() {
+                wwdCtx.clearRect(0, 0, wwdCanvas.width, wwdCanvas.height);
+                wwdCtx.beginPath();
+                for (let x = 0; x < wwdCanvas.width; x += 20) {
+                    const y = wwdCanvas.height / 2 + Math.sin(x * 0.05 + angle) * 50;
+                    wwdCtx.moveTo(x, wwdCanvas.height);
+                    wwdCtx.lineTo(x, y);
+                }
+                wwdCtx.strokeStyle = '#00f';
+                wwdCtx.lineWidth = 2;
+                wwdCtx.stroke();
+                wwdCtx.fillStyle = '#fff';
+                wwdCtx.font = '16px Orbitron';
+                wwdCtx.fillText('Data Analysis', 10, 20);
+                angle += 0.05;
+                requestAnimationFrame(animatePCA);
+            }
+            animatePCA();
+        }
+
+        // What We Do: 3D Crime Globe
+        const globeSetup = initCanvas('crime-globe-canvas');
+        if (globeSetup) {
+            const { canvas: globeCanvas, ctx: globeCtx } = globeSetup;
+            let angle = 0;
+            function animateGlobe() {
+                globeCtx.clearRect(0, 0, globeCanvas.width, globeCanvas.height);
+                const centerX = globeCanvas.width / 2, centerY = globeCanvas.height / 2, radius = 80;
+
+                globeCtx.beginPath();
+                globeCtx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+                globeCtx.fillStyle = 'rgba(0, 0, 255, 0.2)';
+                globeCtx.fill();
+
+                for (let i = 0; i < 12; i++) {
+                    const latAngle = (i / 12) * Math.PI * 2 + angle;
+                    const x = centerX + Math.cos(latAngle) * radius * Math.cos(angle * 0.5);
+                    const y = centerY + Math.sin(latAngle) * radius * 0.5;
+                    globeCtx.beginPath();
+                    globeCtx.arc(x, y, 3, 0, Math.PI * 2);
+                    globeCtx.fillStyle = '#f00';
+                    globeCtx.fill();
+                }
+
+                globeCtx.fillStyle = '#fff';
+                globeCtx.font = '16px Orbitron';
+                globeCtx.fillText('Global Reach', 10, 20);
+                angle += 0.03;
+                requestAnimationFrame(animateGlobe);
+            }
+            animateGlobe();
+        }
+
+        // What We Do: Predictive Heatmap
+        const heatmapSetup = initCanvas('predictive-heatmap-canvas');
+        if (heatmapSetup) {
+            const { canvas: heatmapCanvas, ctx: heatmapCtx } = heatmapSetup;
+            let time = 0;
+            function animateHeatmap() {
+                heatmapCtx.clearRect(0, 0, heatmapCanvas.width, heatmapCanvas.height);
+                for (let x = 0; x < heatmapCanvas.width; x += 20) {
+                    for (let y = 0; y < heatmapCanvas.height; y += 20) {
+                        const value = Math.sin(x * 0.05 + time) * Math.cos(y * 0.05 + time);
+                        heatmapCtx.fillStyle = `rgba(255, 0, 0, ${Math.abs(value) * 0.5})`;
+                        heatmapCtx.fillRect(x, y, 20, 20);
+                    }
+                }
+                heatmapCtx.fillStyle = '#fff';
+                heatmapCtx.font = '16px Orbitron';
+                heatmapCtx.fillText('Crime Heatmap', 10, 20);
+                time += 0.05;
+                requestAnimationFrame(animateHeatmap);
+            }
+            animateHeatmap();
+        }
+
+        // Beyond Today: Animated Future Graph
+        const btSetup = initCanvas('beyond-today-canvas');
+        if (btSetup) {
+            const { canvas: btCanvas, ctx: btCtx } = btSetup;
+            let time = 0;
+            function animateFutureGraph() {
+                btCtx.clearRect(0, 0, btCanvas.width, btCanvas.height);
+                btCtx.beginPath();
+                for (let x = 0; x < btCanvas.width; x++) {
+                    const y = btCanvas.height - (btCanvas.height * Math.exp(-x * 0.005)) * (1 + Math.sin(time + x * 0.02) * 0.2);
+                    btCtx.lineTo(x, y);
+                }
+                btCtx.strokeStyle = '#f00';
+                btCtx.lineWidth = 2;
+                btCtx.stroke();
+                btCtx.fillStyle = '#000';
+                btCtx.font = '16px Orbitron';
+                btCtx.fillText('Future Trends', 10, 20);
+                time += 0.05;
+                requestAnimationFrame(animateFutureGraph);
+            }
+            animateFutureGraph();
+        }
+
+        // Beyond Today: Timeline Projection
+        const timelineSetup = initCanvas('timeline-canvas');
+        if (timelineSetup) {
+            const { canvas: timelineCanvas, ctx: timelineCtx } = timelineSetup;
+            let time = 0;
+            function animateTimeline() {
+                timelineCtx.clearRect(0, 0, timelineCanvas.width, timelineCanvas.height);
+                timelineCtx.beginPath();
+                timelineCtx.moveTo(0, timelineCanvas.height / 2);
+                timelineCtx.lineTo(timelineCanvas.width, timelineCanvas.height / 2);
+                timelineCtx.strokeStyle = '#fff';
+                timelineCtx.lineWidth = 2;
+                timelineCtx.stroke();
+
+                for (let i = 0; i < 5; i++) {
+                    const x = (i + 1) * (timelineCanvas.width / 6);
+                    timelineCtx.beginPath();
+                    timelineCtx.arc(x, timelineCanvas.height / 2 + Math.sin(time + i) * 20, 5, 0, Math.PI * 2);
+                    timelineCtx.fillStyle = '#0f0';
+                    timelineCtx.fill();
+                }
+                timelineCtx.fillStyle = '#000';
+                timelineCtx.font = '16px Orbitron';
+                timelineCtx.fillText('Timeline', 10, 20);
+                time += 0.1;
+                requestAnimationFrame(animateTimeline);
+            }
+            animateTimeline();
+        }
+
+        // Our Mission: Dynamic Grid
+        const missionSetup = initCanvas('mission-canvas');
+        if (missionSetup) {
+            const { canvas: missionCanvas, ctx: missionCtx } = missionSetup;
+            let time = 0;
+            function animateGrid() {
+                missionCtx.clearRect(0, 0, missionCanvas.width, missionCanvas.height);
+                for (let x = 0; x < missionCanvas.width; x += 20) {
+                    for (let y = 0; y < missionCanvas.height; y += 20) {
+                        const intensity = Math.sin(x * 0.05 + time) * Math.cos(y * 0.05 + time);
+                        missionCtx.fillStyle = `rgba(0, 0, 255, ${Math.abs(intensity) * 0.5})`;
+                        missionCtx.fillRect(x, y, 20, 20);
+                    }
+                }
+                missionCtx.fillStyle = '#fff';
+                missionCtx.font = '16px Orbitron';
+                missionCtx.fillText('Mission Scope', 10, 20);
+                time += 0.05;
+                requestAnimationFrame(animateGrid);
+            }
+            animateGrid();
+        }
+
+        // Our Vision: Simplified Heatmap
+        const visSetup = initCanvas('vision-canvas');
+        if (visSetup) {
+            const { canvas: visCanvas, ctx: visCtx } = visSetup;
+            let time = 0;
+            function animateSimpleHeatmap() {
+                visCtx.clearRect(0, 0, visCanvas.width, visCanvas.height);
+                for (let x = 0; x < visCanvas.width; x += 30) {
+                    for (let y = 0; y < visCanvas.height; y += 30) {
+                        const value = Math.sin(x * 0.01 + time) + Math.cos(y * 0.01 + time);
+                        visCtx.fillStyle = `rgba(0, ${Math.abs(value) * 100 + 100}, 0, 0.3)`;
+                        visCtx.fillRect(x, y, 30, 30);
+                    }
+                }
+                visCtx.fillStyle = '#fff';
+                visCtx.font = '16px Orbitron';
+                visCtx.fillText('Vision Map', 10, 20);
+                time += 0.02;
+                requestAnimationFrame(animateSimpleHeatmap);
+            }
+            animateSimpleHeatmap();
+        }
+
+        // Progress: Dual-Color Line Chart
+        const progSetup = initCanvas('progress-canvas');
+        if (progSetup) {
+            const { canvas: progCanvas, ctx: progCtx } = progSetup;
+            let time = 0;
+            function animateLineChart() {
+                progCtx.clearRect(0, 0, progCanvas.width, progCanvas.height);
+                progCtx.beginPath();
+                for (let x = 0; x < progCanvas.width; x++) {
+                    const y1 = progCanvas.height / 2 + Math.sin(x * 0.02 + time) * 50;
+                    progCtx.lineTo(x, y1);
+                }
+                progCtx.strokeStyle = '#0f0';
+                progCtx.lineWidth = 3;
+                progCtx.stroke();
+
+                progCtx.beginPath();
+                for (let x = 0; x < progCanvas.width; x++) {
+                    const y2 = progCanvas.height / 2 + Math.cos(x * 0.015 + time) * 60;
+                    progCtx.lineTo(x, y2);
+                }
+                progCtx.strokeStyle = '#00f';
+                progCtx.lineWidth = 2;
+                progCtx.stroke();
+
+                progCtx.fillStyle = '#fff';
+                progCtx.font = '16px Orbitron';
+                progCtx.fillText('Progress', 10, 20);
+                time += 0.05;
+                requestAnimationFrame(animateLineChart);
+            }
+            animateLineChart();
+        }
+
+        // Progress: Cityscape Overlay
+        const cityscapeSetup = initCanvas('cityscape-canvas');
+        if (cityscapeSetup) {
+            const { canvas: cityCanvas, ctx: cityCtx } = cityscapeSetup;
+            let pulse = 0;
+            function animateCityscape() {
+                cityCtx.clearRect(0, 0, cityCanvas.width, cityCanvas.height);
+                for (let x = 0; x < cityCanvas.width; x += 50) {
+                    const height = Math.random() * 100 + 50;
+                    cityCtx.fillStyle = '#333';
+                    cityCtx.fillRect(x, cityCanvas.height - height, 40, height);
+                }
+                for (let i = 0; i < 3; i++) {
+                    cityCtx.beginPath();
+                    cityCtx.arc(cityCanvas.width / 2, cityCanvas.height / 2, 50 + Math.sin(pulse + i) * 20, 0, Math.PI * 2);
+                    cityCtx.strokeStyle = `rgba(0, 255, 0, ${1 - i * 0.3})`;
+                    cityCtx.lineWidth = 2;
+                    cityCtx.stroke();
+                }
+                cityCtx.fillStyle = '#fff';
+                cityCtx.font = '16px Orbitron';
+                cityCtx.fillText('City Impact', 10, 20);
+                pulse += 0.1;
+                requestAnimationFrame(animateCityscape);
+            }
+            animateCityscape();
+        }
+
+        // Why Invest: Enhanced Candlestick Chart
+        const invSetup = initCanvas('invest-canvas');
+        if (invSetup) {
+            const { canvas: invCanvas, ctx: invCtx } = invSetup;
+            let invData = Array(20).fill().map(() => ({
+                o: Math.random() * 80 + 20,
+                h: Math.random() * 100 + 20,
+                l: Math.random() * 60,
+                c: Math.random() * 80 + 20
+            }));
+            let offset = 0;
+            function animateCandlestick() {
+                invCtx.clearRect(0, 0, invCanvas.width, invCanvas.height);
+                invCtx.beginPath();
+                for (let y = 0; y < invCanvas.height; y += 25) {
+                    invCtx.moveTo(0, y);
+                    invCtx.lineTo(invCanvas.width, y);
+                }
+                invCtx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+                invCtx.lineWidth = 1;
+                invCtx.stroke();
+
+                const barWidth = invCanvas.width / 15;
+                const visibleBars = Math.ceil(invCanvas.width / barWidth) + 1;
+
+                for (let i = 0; i < visibleBars; i++) {
+                    const dataIndex = Math.floor(offset + i) % invData.length;
+                    const d = invData[dataIndex];
+                    const x = i * barWidth - (offset % 1) * barWidth;
+                    const openY = invCanvas.height - d.o * 2;
+                    const highY = invCanvas.height - d.h * 2;
+                    const lowY = invCanvas.height - d.l * 2;
+                    const closeY = invCanvas.height - d.c * 2;
+                    const barHeight = Math.abs(openY - closeY);
+
+                    invCtx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+                    invCtx.fillRect(x + barWidth * 0.2 + 2, Math.min(openY, closeY) + 2, barWidth * 0.6, barHeight);
+
+                    invCtx.fillStyle = d.c > d.o ? '#00ff00' : '#ff0000';
+                    invCtx.fillRect(x + barWidth * 0.2, Math.min(openY, closeY), barWidth * 0.6, barHeight);
+
+                    invCtx.beginPath();
+                    invCtx.moveTo(x + barWidth / 2, highY);
+                    invCtx.lineTo(x + barWidth / 2, lowY);
+                    invCtx.strokeStyle = '#ffffff';
+                    invCtx.lineWidth = 2;
+                    invCtx.stroke();
+                }
+
+                invCtx.fillStyle = '#000';
+                invCtx.font = '16px Orbitron';
+                invCtx.fillText('ROI Growth', 10, 20);
+                const latestBar = invData[Math.floor(offset) % invData.length];
+                invCtx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+                invCtx.fillRect(invCanvas.width - 100, 30, 90, 60);
+                invCtx.fillStyle = '#fff';
+                invCtx.font = '12px Orbitron';
+                invCtx.fillText(`Open: ${latestBar.o.toFixed(1)}`, invCanvas.width - 90, 50);
+                invCtx.fillText(`Close: ${latestBar.c.toFixed(1)}`, invCanvas.width - 90, 70);
+
+                offset += 0.05;
+                if (offset >= invData.length) {
+                    offset = 0;
+                    invData.shift();
+                    invData.push({
+                        o: invData[invData.length - 1].c,
+                        h: Math.random() * 100 + 20,
+                        l: Math.random() * 60,
+                        c: Math.random() * 80 + 20
+                    });
+                }
+                requestAnimationFrame(animateCandlestick);
+            }
+            animateCandlestick();
+        }
+
+        // Why Invest: Profit Projection
+        const profitSetup = initCanvas('profit-projection-canvas');
+        if (profitSetup) {
+            const { canvas: profitCanvas, ctx: profitCtx } = profitSetup;
+            let time = 0;
+            function animateProfit() {
+                profitCtx.clearRect(0, 0, profitCanvas.width, profitCanvas.height);
+                profitCtx.beginPath();
+                for (let x = 0; x < profitCanvas.width; x++) {
+                    const y = profitCanvas.height - (x * 0.5 + Math.sin(time + x * 0.02) * 20);
+                    profitCtx.lineTo(x, y);
+                }
+                profitCtx.strokeStyle = '#0f0';
+                profitCtx.lineWidth = 2;
+                profitCtx.stroke();
+                profitCtx.fillStyle = '#fff';
+                profitCtx.font = '16px Orbitron';
+                profitCtx.fillText('Profit Forecast', 10, 20);
+                time += 0.05;
+                requestAnimationFrame(animateProfit);
+            }
+            animateProfit();
+        }
+
+        // Career: CNN Layers
+        const carSetup = initCanvas('career-canvas');
+        if (carSetup) {
+            const { canvas: carCanvas, ctx: carCtx } = carSetup;
+            const layers = [5, 3, 1];
+            let pulse = 0;
+            function animateCNN() {
+                carCtx.clearRect(0, 0, carCanvas.width, carCanvas.height);
+                layers.forEach((size, i) => {
+                    const x = (i + 1) * carCanvas.width / (layers.length + 1);
+                    for (let j = 0; j < size; j++) {
+                        const y = (j + 1) * carCanvas.height / (size + 1);
+                        carCtx.beginPath();
+                        carCtx.rect(x - 20, y - 20, 40, 40);
+                        carCtx.strokeStyle = `rgba(0, 255, 0, ${Math.sin(pulse + i) * 0.5 + 0.5})`;
+                        carCtx.lineWidth = 2;
+                        carCtx.stroke();
+                        if (i < layers.length - 1) {
+                            for (let k = 0; k < layers[i + 1]; k++) {
+                                const nextY = (k + 1) * carCanvas.height / (layers[i + 1] + 1);
+                                carCtx.beginPath();
+                                carCtx.moveTo(x + 20, y);
+                                carCtx.lineTo(x + carCanvas.width / (layers.length + 1) - 20, nextY);
+                                carCtx.strokeStyle = '#00f';
+                                carCtx.lineWidth = 1;
+                                carCtx.stroke();
+                            }
+                        }
+                    }
+                });
+                carCtx.fillStyle = '#fff';
+                carCtx.font = '16px Orbitron';
+                carCtx.fillText('AI Layers', 10, 20);
+                pulse += 0.05;
+                requestAnimationFrame(animateCNN);
+            }
+            animateCNN();
+        }
+
+        // Our Impact: Enhanced Dual-Color Bar Progression
+        const impactSetup = initCanvas('impact-canvas');
+        if (impactSetup) {
+            const { canvas: impactCanvas, ctx: impactCtx } = impactSetup;
+            let progress = 0;
+            function animateBarProgression() {
+                impactCtx.clearRect(0, 0, impactCanvas.width, impactCanvas.height);
+                const barHeight = impactCanvas.height - 40;
+                const orangeWidth = Math.min((progress % 1) * impactCanvas.width * 0.9, impactCanvas.width - 40);
+                const purpleWidth = Math.min((progress % 1) * impactCanvas.width * 0.7, impactCanvas.width - 40);
+
+                const orangeGradient = impactCtx.createLinearGradient(20, 0, orangeWidth + 20, 0);
+                orangeGradient.addColorStop(0, '#ff6200');
+                orangeGradient.addColorStop(1, '#ff9d00');
+                impactCtx.fillStyle = orangeGradient;
+                impactCtx.fillRect(20, 20, orangeWidth, barHeight);
+
+                const purpleGradient = impactCtx.createLinearGradient(20, 0, purpleWidth + 20, 0);
+                purpleGradient.addColorStop(0, '#6a00ff');
+                purpleGradient.addColorStop(1, '#9d00ff');
+                impactCtx.fillStyle = purpleGradient;
+                impactCtx.fillRect(20, 20 + barHeight / 2, purpleWidth, barHeight / 2);
+
+                impactCtx.fillStyle = '#fff';
+                impactCtx.font = '16px Orbitron';
+                impactCtx.fillText('Impact', 10, 20);
+                impactCtx.fillText(`${Math.floor(progress * 100)}%`, impactCanvas.width / 2 - 20, impactCanvas.height / 2 + 5);
+                progress += 0.005;
+                if (progress > 1) progress = 0;
+                requestAnimationFrame(animateBarProgression);
+            }
+            animateBarProgression();
+        }
+
+        // Team: GNN Influence
+        const teamMembers = document.querySelectorAll('.team-member');
+        teamMembers.forEach((member, i) => {
+            const canvas = document.createElement('canvas');
+            member.appendChild(canvas);
+            canvas.width = member.clientWidth;
+            canvas.height = 100;
+            const ctx = canvas.getContext('2d');
+            const nodes = Array(4).fill().map(() => ({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, vx: (Math.random() - 0.5) * 2, vy: (Math.random() - 0.5) * 2 }));
+            function animateTeamGNN() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                nodes.forEach(n => {
+                    n.x += n.vx;
+                    n.y += n.vy;
+                    if (n.x < 0 || n.x > canvas.width) n.vx = -n.vx;
+                    if (n.y < 0 || n.y > canvas.height) n.vy = -n.vy;
+                    ctx.beginPath();
+                    ctx.arc(n.x, n.y, 5, 0, Math.PI * 2);
+                    ctx.fillStyle = '#00f';
+                    ctx.fill();
+                });
+                for (let j = 0; j < nodes.length; j++) {
+                    for (let k = j + 1; k < nodes.length; k++) {
+                        ctx.beginPath();
+                        ctx.moveTo(nodes[j].x, nodes[j].y);
+                        ctx.lineTo(nodes[k].x, nodes[k].y);
+                        ctx.strokeStyle = '#f00';
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+                }
+                requestAnimationFrame(animateTeamGNN);
+            }
+            animateTeamGNN();
+        });
+
+        // Services Animations
+        function drawDynamicGraph(canvasId, type) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.parentElement.clientWidth - 60;
+            canvas.height = 200;
+            let time = 0;
+            function animateGraph() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                if (type === 'heatmap') {
+                    for (let x = 0; x < canvas.width; x += 10) {
+                        for (let y = 0; y < canvas.height; y += 10) {
+                            const intensity = Math.sin(x * 0.05 + time) * Math.cos(y * 0.05 + time);
+                            ctx.fillStyle = `rgba(255, 0, 0, ${intensity * 0.5 + 0.5})`;
+                            ctx.fillRect(x, y, 10, 10);
+                        }
+                    }
+                } else if (type === 'anomaly') {
+                    ctx.beginPath();
+                    for (let x = 0; x < canvas.width; x++) {
+                        const y = canvas.height / 2 + Math.sin(x * 0.05 + time) * 40 + (Math.random() > 0.99 ? 50 : 0);
+                        ctx.lineTo(x, y);
+                    }
+                    ctx.strokeStyle = '#00f';
+                    ctx.stroke();
+                } else if (type === 'hash') {
+                    ctx.font = '16px Orbitron';
+                    for (let i = 0; i < 5; i++) {
+                        const hash = Math.floor(Math.sin(time + i) * 1000000).toString(16).slice(0, 8);
+                        ctx.fillStyle = '#0f0';
+                        ctx.fillText(hash, 20, 40 + i * 30);
+                    }
+                }
+                time += 0.05;
+                requestAnimationFrame(animateGraph);
+            }
+            animateGraph();
+        }
+        drawDynamicGraph('graph1', 'heatmap');
+        drawDynamicGraph('graph2', 'anomaly');
+        drawDynamicGraph('graph3', 'hash');
+
+        // Predictive AI
+        const trainSetup = initCanvas('training-canvas', 300);
+        if (trainSetup) {
+            const { canvas: trainingCanvas, ctx: trainingCtx } = trainSetup;
+            let epoch = 0, loss = 1;
+            function animateTraining() {
+                trainingCtx.clearRect(0, 0, trainingCanvas.width, trainingCanvas.height);
+                trainingCtx.beginPath();
+                for (let x = 0; x < trainingCanvas.width; x++) {
+                    const y = trainingCanvas.height / 2 + Math.sin(x * 0.05 + epoch * 0.1) * loss * 50;
+                    trainingCtx.lineTo(x, y);
+                }
+                trainingCtx.strokeStyle = '#f00';
+                trainingCtx.lineWidth = 2;
+                trainingCtx.stroke();
+                trainingCtx.fillStyle = '#fff';
+                trainingCtx.font = '16px Orbitron';
+                trainingCtx.fillText(`Epoch: ${Math.floor(epoch / 60)}`, 10, 20);
+                epoch++;
+                loss *= 0.995;
+                if (loss < 0.1) loss = 1;
+                requestAnimationFrame(animateTraining);
+            }
+            animateTraining();
+        }
+
+        // Predictive AI: Loss Convergence
+        const lossSetup = initCanvas('loss-convergence-canvas', 150);
+        if (lossSetup) {
+            const { canvas: lossCanvas, ctx: lossCtx } = lossSetup;
+            let time = 0;
+            function animateLoss() {
+                lossCtx.clearRect(0, 0, lossCanvas.width, lossCanvas.height);
+                lossCtx.beginPath();
+                for (let x = 0; x < lossCanvas.width; x++) {
+                    const y = lossCanvas.height - Math.exp(-x * 0.02) * 100 * (1 + Math.sin(time) * 0.1);
+                    lossCtx.lineTo(x, y);
+                }
+                lossCtx.strokeStyle = '#00f';
+                lossCtx.lineWidth = 2;
+                lossCtx.stroke();
+                lossCtx.fillStyle = '#fff';
+                lossCtx.font = '16px Orbitron';
+                lossCtx.fillText('Loss Convergence', 10, 20);
+                time += 0.05;
+                requestAnimationFrame(animateLoss);
+            }
+            animateLoss();
+        }
+
+        // GNN: Dynamic Nodes
+        const gnnSetup = initCanvas('gnn-canvas', 300);
+        if (gnnSetup) {
+            const { canvas: gnnCanvas, ctx: gnnCtx } = gnnSetup;
+            const gnnNodes = Array(5).fill().map(() => ({ x: Math.random() * gnnCanvas.width, y: Math.random() * gnnCanvas.height, vx: (Math.random() - 0.5) * 2, vy: (Math.random() - 0.5) * 2 }));
+            function animateGNN() {
+                gnnCtx.clearRect(0, 0, gnnCanvas.width, gnnCanvas.height);
+                gnnNodes.forEach(n => {
+                    n.x += n.vx;
+                    n.y += n.vy;
+                    if (n.x < 0 || n.x > gnnCanvas.width) n.vx = -n.vx;
+                    if (n.y < 0 || n.y > gnnCanvas.height) n.vy = -n.vy;
+                    gnnCtx.beginPath();
+                    gnnCtx.arc(n.x, n.y, 8, 0, Math.PI * 2);
+                    gnnCtx.fillStyle = '#00f';
+                    gnnCtx.fill();
+                });
+                for (let i = 0; i < gnnNodes.length; i++) {
+                    for (let j = i + 1; j < gnnNodes.length; j++) {
+                        gnnCtx.beginPath();
+                        gnnCtx.moveTo(gnnNodes[i].x, gnnNodes[i].y);
+                        gnnCtx.lineTo(gnnNodes[j].x, gnnNodes[j].y);
+                        gnnCtx.strokeStyle = '#0f0';
+                        gnnCtx.lineWidth = 2;
+                        gnnCtx.stroke();
+                    }
+                }
+                gnnCtx.fillStyle = '#fff';
+                gnnCtx.font = '16px Orbitron';
+                gnnCtx.fillText('Network', 10, 20);
+                requestAnimationFrame(animateGNN);
+            }
+            animateGNN();
+        }
+
+        // GNN: Force-Directed Layout
+        const forceSetup = initCanvas('force-directed-canvas', 150);
+        if (forceSetup) {
+            const { canvas: forceCanvas, ctx: forceCtx } = forceSetup;
+            const nodes = Array(6).fill().map(() => ({ x: Math.random() * forceCanvas.width, y: Math.random() * forceCanvas.height, vx: 0, vy: 0 }));
+            function animateForceDirected() {
+                forceCtx.clearRect(0, 0, forceCanvas.width, forceCanvas.height);
+                nodes.forEach((n, i) => {
+                    nodes.forEach((m, j) => {
+                        if (i !== j) {
+                            const dx = m.x - n.x;
+                            const dy = m.y - n.y;
+                            const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+                            const force = Math.min(100 / dist, 1);
+                            n.vx += dx / dist * force * 0.1;
+                            n.vy += dy / dist * force * 0.1;
+                        }
+                    });
+                    n.vx *= 0.95;
+                    n.vy *= 0.95;
+                    n.x += n.vx;
+                    n.y += n.vy;
+                    if (n.x < 0 || n.x > forceCanvas.width) n.vx = -n.vx;
+                    if (n.y < 0 || n.y > forceCanvas.height) n.vy = -n.vy;
+                });
+                nodes.forEach(n => {
+                    forceCtx.beginPath();
+                    forceCtx.arc(n.x, n.y, 5, 0, Math.PI * 2);
+                    forceCtx.fillStyle = '#f00';
+                    forceCtx.fill();
+                });
+                for (let i = 0; i < nodes.length; i++) {
+                    for (let j = i + 1; j < nodes.length; j++) {
+                        forceCtx.beginPath();
+                        forceCtx.moveTo(nodes[i].x, nodes[i].y);
+                        forceCtx.lineTo(nodes[j].x, nodes[j].y);
+                        forceCtx.strokeStyle = '#00f';
+                        forceCtx.lineWidth = 1;
+                        forceCtx.stroke();
+                    }
+                }
+                forceCtx.fillStyle = '#fff';
+                forceCtx.font = '16px Orbitron';
+                forceCtx.fillText('Force Layout', 10, 20);
+                requestAnimationFrame(animateForceDirected);
+            }
+            animateForceDirected();
+        }
+
+        // LSTM
+        const lstmSetup = initCanvas('lstm-canvas', 300);
+        if (lstmSetup) {
+            const { canvas: lstmCanvas, ctx: lstmCtx } = lstmSetup;
+            let lstmTime = 0;
+            function animateLSTM() {
+                lstmCtx.clearRect(0, 0, lstmCanvas.width, lstmCanvas.height);
+                for (let i = 0; i < 5; i++) {
+                    const x = (i + 0.5) * (lstmCanvas.width / 5);
+                    lstmCtx.beginPath();
+                    lstmCtx.rect(x - 20, lstmCanvas.height / 2 - 20 + Math.sin(lstmTime + i) * 10, 40, 40);
+                    lstmCtx.strokeStyle = '#f00';
+                    lstmCtx.lineWidth = 2;
+                    lstmCtx.stroke();
+                }
+                lstmCtx.fillStyle = '#fff';
+                lstmCtx.font = '16px Orbitron';
+                lstmCtx.fillText('Time Series', 10, 20);
+                lstmTime += 0.05;
+                requestAnimationFrame(animateLSTM);
+            }
+            animateLSTM();
+        }
+
+        // Contact: Neural Pulse
+        const pulseSetup = initCanvas('neural-pulse-canvas', 200);
+        if (pulseSetup) {
+            const { canvas: pulseCanvas, ctx: pulseCtx } = pulseSetup;
+            pulseCanvas.style.position = 'absolute';
+            pulseCanvas.style.top = '0';
+            pulseCanvas.style.opacity = '0.3';
+            let pulse = 0;
+            function animatePulse() {
+                pulseCtx.clearRect(0, 0, pulseCanvas.width, pulseCanvas.height);
+                const centerX = pulseCanvas.width / 2, centerY = pulseCanvas.height / 2;
+                for (let i = 0; i < 3; i++) {
+                    const radius = 50 + Math.sin(pulse + i) * 20;
+                    pulseCtx.beginPath();
+                    pulseCtx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+                    pulseCtx.strokeStyle = `rgba(0, 255, 0, ${1 - i * 0.3})`;
+                    pulseCtx.lineWidth = 2;
+                    pulseCtx.stroke();
+                }
+                pulseCtx.fillStyle = '#0f0';
+                pulseCtx.font = '16px Orbitron';
+                pulseCtx.fillText('AI Pulse', 10, 20);
+                pulse += 0.1;
+                requestAnimationFrame(animatePulse);
+            }
+            animatePulse();
+        }
+
+        // Contact: Blockchain Hash Flow
+        const hashSetup = initCanvas('blockchain-hash-canvas', 200);
+        if (hashSetup) {
+            const { canvas: hashCanvas, ctx: hashCtx } = hashSetup;
+            hashCanvas.style.position = 'absolute';
+            hashCanvas.style.top = '0';
+            hashCanvas.style.opacity = '0.3';
+            let time = 0;
+            function animateHashFlow() {
+                hashCtx.clearRect(0, 0, hashCanvas.width, hashCanvas.height);
+                for (let i = 0; i < 5; i++) {
+                    const hash = Math.floor(Math.sin(time + i) * 1000000).toString(16).slice(0, 8);
+                    hashCtx.fillStyle = '#00f';
+                    hashCtx.font = '16px Orbitron';
+                    hashCtx.fillText(hash, hashCanvas.width - 100, 40 + i * 30);
+                }
+                hashCtx.fillStyle = '#00f';
+                hashCtx.font = '16px Orbitron';
+                hashCtx.fillText('Blockchain Hash', 10, 20);
+                time += 0.1;
+                requestAnimationFrame(animateHashFlow);
+            }
+            animateHashFlow();
+        }
+
+        // Footer: Wave Animation
+        const footerSetup = initCanvas('footer-canvas', 50);
+        if (footerSetup) {
+            const { canvas: footerCanvas, ctx: footerCtx } = footerSetup;
+            let time = 0;
+            function animateFooterWave() {
+                footerCtx.clearRect(0, 0, footerCanvas.width, footerCanvas.height);
+                footerCtx.beginPath();
+                for (let x = 0; x < footerCanvas.width; x++) {
+                    const y = 25 + Math.sin(x * 0.05 + time) * 10;
+                    footerCtx.lineTo(x, y);
+                }
+                footerCtx.strokeStyle = '#0f0';
+                footerCtx.lineWidth = 2;
+                footerCtx.stroke();
+                time += 0.05;
+                requestAnimationFrame(animateFooterWave);
+            }
+            animateFooterWave();
+        }
+
+        // Resize Handler
+        window.addEventListener('resize', () => {
+            const canvases = document.querySelectorAll('canvas');
+            canvases.forEach(canvas => {
+                if (canvas.id === 'matrix-canvas') {
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                } else if (canvas.id === 'neural-canvas' || canvas.id === 'neural-net-canvas') {
+                    canvas.width = canvas.parentElement.clientWidth;
+                    canvas.height = window.innerHeight;
+                } else if (canvas.id === 'footer-canvas') {
+                    canvas.width = canvas.parentElement.clientWidth;
+                } else if (canvas.parentElement.classList.contains('team-member')) {
+                    canvas.width = canvas.parentElement.clientWidth;
+                } else if (canvas.parentElement.classList.contains('service')) {
+                    canvas.width = canvas.parentElement.clientWidth - 60;
+                } else {
+                    const parentWidth = canvas.parentElement.clientWidth;
+                    const maxWidth = Math.min(parentWidth, 600);
+                    canvas.width = maxWidth;
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
